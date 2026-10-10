@@ -1,0 +1,51 @@
+# ==============================================================================
+# .dockerignore - Exclude files from Docker build context
+# Keeps the image small and prevents secrets/dev artifacts from leaking in.
+# ==============================================================================
+
+# Virtual environment (never ship training venv into image)
+.venv/
+
+# Raw training data (mounted via volume at runtime if needed)
+data/
+Safety-Helmet-Wearing-Dataset-master/
+
+# PyTorch training weights (only the final exported ONNX is shipped)
+yolov8n.pt
+models/*.pt
+models/exp*/
+
+# MLflow experiment database and tracking artifacts
+mlflow.db
+mlruns/
+
+# All test files
+tests/
+
+# Reports (generated content, not needed in production image)
+reports/
+
+# Documentation sources
+docs/
+
+# Configs (training configs, not needed by inference API)
+configs/
+
+# Development tooling
+.vscode/
+.git/
+.gitignore
+
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# OS junk
+.DS_Store
+Thumbs.db
+*.log

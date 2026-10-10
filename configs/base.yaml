@@ -1,0 +1,39 @@
+# Base Configuration for PPE Safety Helmet Detection
+experiment:
+  name: "ppe_helmet_detection"
+  run_id: "base"
+  changed_variable: "none"
+  seed: 42
+  tracking_uri: "sqlite:///mlflow.db"
+
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  splits_dir: "data/splits"
+  classes:
+    0: "hat"          # Worker wearing safety helmet (positive class)
+    1: "no_helmet"    # Worker head without safety helmet (originally named 'person' in SHWD)
+  img_size: 640
+  batch_size: 16
+  workers: 4
+
+model:
+  architecture: "yolov8n.pt"
+  epochs: 30
+  patience: 10
+  optimizer: "SGD"
+  lr0: 0.01
+  lrf: 0.01
+  weight_decay: 0.0005
+
+augmentation:
+  mosaic: 1.0
+  scale: 0.5
+  fliplr: 0.5
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+
+loss:
+  cls_loss_gain: 0.5
+  box_loss_gain: 7.5

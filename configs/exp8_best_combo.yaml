@@ -1,0 +1,39 @@
+# Phase 4 - Ablation 8: Best Composite Winning Configuration (Union of Validated Wins)
+# Combines validated winning interventions across augmentation, class imbalance handling,
+# resolution, and optimization dynamics.
+experiment:
+  name: "ppe_helmet_detection"
+  run_id: "exp8_best_combo"
+  changed_variable: "best_composite"
+  seed: 42
+  tracking_uri: "sqlite:///mlflow.db"
+
+data:
+  dataset_yaml: "data/dataset.yaml"
+  img_size: 800        # Winning resolution for small objects
+  batch_size: 16
+  workers: 4
+
+model:
+  weights: "yolov8n.pt"
+  epochs: 30
+  patience: 10
+  optimizer: "SGD"
+  lr0: 0.01
+  lrf: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  warmup_epochs: 3.0
+  cos_lr: true         # Winning scheduler
+
+augmentation:
+  mosaic: 0.5          # Winning crowd preservation
+  scale: 0.7          # Winning multiscale jittering
+  fliplr: 0.5
+  hsv_h: 0.015
+  hsv_s: 0.4          # Winning color robustness
+  hsv_v: 0.4
+
+loss:
+  cls_loss_gain: 1.5   # Winning class imbalance weighting
+  box_loss_gain: 7.5

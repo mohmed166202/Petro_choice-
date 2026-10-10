@@ -1,0 +1,190 @@
+{
+  "optimal_threshold": 0.9,
+  "justification": "Selected on validation set using Industrial Cost Matrix: FN penalty = 5.0x (unprotected worker undetected), FP penalty = 1.0x (false alert). Optimal threshold tau* = 0.90 minimizes total site liability.",
+  "cost_matrix_parameters": {
+    "fn_violation_penalty": 5.0,
+    "fp_alarm_penalty": 1.0
+  },
+  "optimal_metrics": {
+    "threshold": 0.9,
+    "operational_cost": 1285.0,
+    "no_helmet_precision": 0.0,
+    "no_helmet_recall": 0.0,
+    "no_helmet_f1": 0.0,
+    "no_helmet_f2": 0.0,
+    "false_negatives_violations": 257,
+    "false_alarms": 0
+  },
+  "sweep_details": [
+    {
+      "threshold": 0.1,
+      "operational_cost": 1754.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 245,
+      "false_alarms": 529
+    },
+    {
+      "threshold": 0.15,
+      "operational_cost": 1583.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 249,
+      "false_alarms": 338
+    },
+    {
+      "threshold": 0.2,
+      "operational_cost": 1488.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 250,
+      "false_alarms": 238
+    },
+    {
+      "threshold": 0.25,
+      "operational_cost": 1447.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 253,
+      "false_alarms": 182
+    },
+    {
+      "threshold": 0.3,
+      "operational_cost": 1413.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 254,
+      "false_alarms": 143
+    },
+    {
+      "threshold": 0.35,
+      "operational_cost": 1388.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 254,
+      "false_alarms": 118
+    },
+    {
+      "threshold": 0.4,
+      "operational_cost": 1373.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 255,
+      "false_alarms": 98
+    },
+    {
+      "threshold": 0.45,
+      "operational_cost": 1359.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 256,
+      "false_alarms": 79
+    },
+    {
+      "threshold": 0.5,
+      "operational_cost": 1347.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 256,
+      "false_alarms": 67
+    },
+    {
+      "threshold": 0.55,
+      "operational_cost": 1341.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 256,
+      "false_alarms": 61
+    },
+    {
+      "threshold": 0.6,
+      "operational_cost": 1331.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 256,
+      "false_alarms": 51
+    },
+    {
+      "threshold": 0.65,
+      "operational_cost": 1328.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 257,
+      "false_alarms": 43
+    },
+    {
+      "threshold": 0.7,
+      "operational_cost": 1316.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 257,
+      "false_alarms": 31
+    },
+    {
+      "threshold": 0.75,
+      "operational_cost": 1305.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 257,
+      "false_alarms": 20
+    },
+    {
+      "threshold": 0.8,
+      "operational_cost": 1295.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 257,
+      "false_alarms": 10
+    },
+    {
+      "threshold": 0.85,
+      "operational_cost": 1291.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 257,
+      "false_alarms": 6
+    },
+    {
+      "threshold": 0.9,
+      "operational_cost": 1285.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 257,
+      "false_alarms": 0
+    }
+  ]
+}

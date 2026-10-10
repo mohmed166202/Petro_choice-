@@ -1,0 +1,256 @@
+"""
+threshold_optimizer.py - Validation Confidence Threshold Optimization
+----------------------------------------------------------------------
+Optimizes confidence threshold strictly on the VALIDATION SET (never test set):
+1. Sweeps confidence threshold tau from 0.05 to 0.95.
+2. Applies the Industrial Safety Cost Matrix:
+     Cost = 5 * FN(no_helmet) + 1 * FP(no_helmet)
+   (A missed bare-head violation poses high safety liability; false alarms are low cost).
+3. Selects optimal threshold tau* that minimizes operational cost.
+4. Generates threshold-cost curves and exports justification report.
+"""
+
+import sys
+import json
+from pathlib import Path
+from typing import Dict, List, Tuple, Any
+
+# Ensure project root in sys.path
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
+import cv2
+from tqdm import tqdm
+from ultralytics import YOLO
+
+from src.utils.seed import set_seed
+from src.utils.guard import guard_test_set_access
+
+
+def load_optimal_threshold(reports_dir: Path) -> float:
+    """Loads optimal threshold chosen strictly on validation set."""
+    thresh_file = reports_dir / "optimal_threshold_justification.json"
+    if thresh_file.exists():
+        with open(thresh_file, "r") as f:
+            data = json.load(f)
+            return float(data.get("optimal_threshold", 0.40))
+    return 0.40  # Default industrial threshold if optimizer not run
+
+
+def compute_iou_matrix(boxesA: np.ndarray, boxesB: np.ndarray) -> np.ndarray:
+    """Computes pairwise IoU between two arrays of xyxy boxes."""
+    if len(boxesA) == 0 or len(boxesB) == 0:
+        return np.zeros((len(boxesA), len(boxesB)))
+        
+    xA = np.maximum(boxesA[:, 0:1], boxesB[:, 0:1].T)
+    yA = np.maximum(boxesA[:, 1:2], boxesB[:, 1:2].T)
+    xB = np.minimum(boxesA[:, 2:3], boxesB[:, 2:3].T)
+    yB = np.minimum(boxesA[:, 3:4], boxesB[:, 3:4].T)
+    
+    inter = np.maximum(0.0, xB - xA) * np.maximum(0.0, yB - yA)
+    areaA = (boxesA[:, 2] - boxesA[:, 0]) * (boxesA[:, 3] - boxesA[:, 1])
+    areaB = (boxesB[:, 2] - boxesB[:, 0]) * (boxesB[:, 3] - boxesB[:, 1])
+    union = areaA[:, None] + areaB[None, :] - inter
+    return np.where(union > 0, inter / union, 0.0)
+
+
+def evaluate_threshold_costs(
+    weights_path: str = "yolov8n.pt",
+    val_split_path: Path = Path("data/splits/val.txt"),
+    labels_dir: Path = Path("data/processed/labels"),
+    reports_dir: Path = Path("reports"),
+    max_images: int = 200,
+    iou_thresh: float = 0.5,
+    fn_violation_penalty: float = 5.0,
+    fp_alarm_penalty: float = 1.0
+) -> Dict[str, Any]:
+    """
+    Sweeps thresholds on validation set and determines the cost-minimizing threshold.
+    """
+    guard_test_set_access("threshold_optimizer.py")
+    set_seed(42)
+    
+    with open(val_split_path, "r", encoding="utf-8") as f:
+        val_lines = [l.strip() for l in f if l.strip()][:max_images]
+        
+    model = YOLO(weights_path)
+    thresholds = np.linspace(0.10, 0.90, 17)
+    
+    # Store predictions & ground truth per image
+    image_eval_data = []
+    print(f"[INFO] Running validation inference on {len(val_lines)} images for threshold optimization...")
+    
+    for line in tqdm(val_lines, desc="Validating"):
+        img_path = Path(line)
+        if not img_path.exists():
+            continue
+            
+        with Image.open(img_path) as pil_img:
+            w, h = pil_img.size
+            
+        lbl_path = labels_dir / f"{img_path.stem}.txt"
+        gt_boxes = []
+        gt_classes = []
+        if lbl_path.exists():
+            with open(lbl_path, "r", encoding="utf-8") as lf:
+                for row in lf:
+                    parts = row.strip().split()
+                    if parts:
+                        cid = int(parts[0])
+                        xc, yc, bw, bh = map(float, parts[1:5])
+                        xmin = (xc - bw / 2) * w
+                        ymin = (yc - bh / 2) * h
+                        xmax = (xc + bw / 2) * w
+                        ymax = (yc + bh / 2) * h
+                        gt_boxes.append([xmin, ymin, xmax, ymax])
+                        gt_classes.append(cid)
+                        
+        gt_boxes = np.array(gt_boxes) if gt_boxes else np.zeros((0, 4))
+        gt_classes = np.array(gt_classes) if gt_classes else np.zeros((0,), dtype=int)
+        
+        # Run YOLO with low confidence to cache raw predictions
+        res = model.predict(source=str(img_path), conf=0.05, verbose=False)[0]
+        preds = []
+        for box in res.boxes:
+            b_xyxy = box.xyxy[0].cpu().numpy()
+            b_conf = float(box.conf[0].cpu().numpy())
+            b_cls = int(box.cls[0].cpu().numpy())
+            preds.append((b_xyxy, b_conf, b_cls))
+            
+        image_eval_data.append((gt_boxes, gt_classes, preds))
+        
+    cost_curve = []
+    metrics_by_thresh = []
+    
+    for tau in thresholds:
+        tp_hat, fp_hat, fn_hat = 0, 0, 0
+        tp_nh, fp_nh, fn_nh = 0, 0, 0
+        
+        for gt_boxes, gt_classes, preds in image_eval_data:
+            filt_preds = [p for p in preds if p[1] >= tau]
+            pred_boxes = np.array([p[0] for p in filt_preds]) if filt_preds else np.zeros((0, 4))
+            pred_classes = np.array([p[2] for p in filt_preds]) if filt_preds else np.zeros((0,), dtype=int)
+            
+            # Match preds to GT
+            iou_mat = compute_iou_matrix(pred_boxes, gt_boxes)
+            matched_gt = set()
+            
+            if len(pred_boxes) > 0 and len(gt_boxes) > 0:
+                for p_idx in range(len(pred_boxes)):
+                    best_gt = -1
+                    best_iou = iou_thresh
+                    for g_idx in range(len(gt_boxes)):
+                        if g_idx in matched_gt:
+                            continue
+                        if iou_mat[p_idx, g_idx] > best_iou:
+                            best_iou = iou_mat[p_idx, g_idx]
+                            best_gt = g_idx
+                            
+                    if best_gt != -1:
+                        matched_gt.add(best_gt)
+                        if pred_classes[p_idx] == gt_classes[best_gt]:
+                            if pred_classes[p_idx] == 0:
+                                tp_hat += 1
+                            else:
+                                tp_nh += 1
+                        else:
+                            # Class mismatch
+                            if pred_classes[p_idx] == 0:
+                                fp_hat += 1
+                            else:
+                                fp_nh += 1
+                    else:
+                        # False Positive
+                        if pred_classes[p_idx] == 0:
+                            fp_hat += 1
+                        else:
+                            fp_nh += 1
+                            
+                # Unmatched GT are False Negatives
+                for g_idx in range(len(gt_boxes)):
+                    if g_idx not in matched_gt:
+                        if gt_classes[g_idx] == 0:
+                            fn_hat += 1
+                        else:
+                            fn_nh += 1
+            else:
+                if len(pred_boxes) > 0:
+                    fp_hat += np.sum(pred_classes == 0)
+                    fp_nh += np.sum(pred_classes == 1)
+                if len(gt_boxes) > 0:
+                    fn_hat += np.sum(gt_classes == 0)
+                    fn_nh += np.sum(gt_classes == 1)
+
+        # Operational safety cost: heavy penalty on missed bare heads
+        operational_cost = (fn_violation_penalty * fn_nh) + (fp_alarm_penalty * fp_nh)
+        
+        # F1 score for no_helmet
+        nh_prec = tp_nh / (tp_nh + fp_nh) if (tp_nh + fp_nh) > 0 else 0.0
+        nh_rec = tp_nh / (tp_nh + fn_nh) if (tp_nh + fn_nh) > 0 else 0.0
+        nh_f1 = (2 * nh_prec * nh_rec) / (nh_prec + nh_rec) if (nh_prec + nh_rec) > 0 else 0.0
+        nh_f2 = (5 * nh_prec * nh_rec) / (4 * nh_prec + nh_rec) if (4 * nh_prec + nh_rec) > 0 else 0.0
+        
+        cost_curve.append(operational_cost)
+        metrics_by_thresh.append({
+            "threshold": round(float(tau), 2),
+            "operational_cost": float(operational_cost),
+            "no_helmet_precision": round(float(nh_prec), 4),
+            "no_helmet_recall": round(float(nh_rec), 4),
+            "no_helmet_f1": round(float(nh_f1), 4),
+            "no_helmet_f2": round(float(nh_f2), 4),
+            "false_negatives_violations": int(fn_nh),
+            "false_alarms": int(fp_nh),
+        })
+
+    # Find optimal threshold minimizing operational cost
+    best_idx = int(np.argmin(cost_curve))
+    optimal_tau = thresholds[best_idx]
+    
+    # Save charts
+    fig_dir = reports_dir / "figures"
+    fig_dir.mkdir(parents=True, exist_ok=True)
+    
+    plt.figure(figsize=(7, 4))
+    plt.plot(thresholds, cost_curve, marker="o", color="#e74c3c", linewidth=2, label="Operational Cost")
+    plt.axvline(optimal_tau, color="#2ecc71", linestyle="--", label=f"Optimal tau* = {optimal_tau:.2f}")
+    plt.title("Industrial Operational Safety Cost vs. Confidence Threshold")
+    plt.xlabel("Confidence Threshold (tau)")
+    plt.ylabel(f"Safety Cost ({fn_violation_penalty}x FN + {fp_alarm_penalty}x FP)")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(fig_dir / "threshold_vs_cost_curve.png", dpi=150)
+    plt.close()
+    
+    optimization_summary = {
+        "optimal_threshold": round(float(optimal_tau), 2),
+        "justification": (
+            f"Selected on validation set using Industrial Cost Matrix: "
+            f"FN penalty = {fn_violation_penalty}x (unprotected worker undetected), "
+            f"FP penalty = {fp_alarm_penalty}x (false alert). "
+            f"Optimal threshold tau* = {optimal_tau:.2f} minimizes total site liability."
+        ),
+        "cost_matrix_parameters": {
+            "fn_violation_penalty": fn_violation_penalty,
+            "fp_alarm_penalty": fp_alarm_penalty
+        },
+        "optimal_metrics": metrics_by_thresh[best_idx],
+        "sweep_details": metrics_by_thresh
+    }
+    
+    out_json = reports_dir / "optimal_threshold_justification.json"
+    with open(out_json, "w", encoding="utf-8") as f:
+        json.dump(optimization_summary, f, indent=2)
+        
+    print(f"\n[SUCCESS] Optimal Validation Confidence Threshold Found: {optimal_tau:.2f}")
+    print(f"  Operational Cost at tau*: {cost_curve[best_idx]:.1f}")
+    print(f"  Summary saved to {out_json}")
+    return optimization_summary
+
+
+if __name__ == "__main__":
+    evaluate_threshold_costs()

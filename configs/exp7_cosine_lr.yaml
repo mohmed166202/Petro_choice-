@@ -1,0 +1,39 @@
+# Phase 4 - Ablation 7: Cosine Learning Rate Schedule (Convergence Dynamics Hypothesis)
+# Hypothesis: Replacing linear LR decay with a smooth cosine decay schedule avoids sharp step drops
+# and allows weights to settle into broader, flatter validation minima.
+experiment:
+  name: "ppe_helmet_detection"
+  run_id: "exp7_cosine_lr"
+  changed_variable: "cosine_lr_scheduler"
+  seed: 42
+  tracking_uri: "sqlite:///mlflow.db"
+
+data:
+  dataset_yaml: "data/dataset.yaml"
+  img_size: 640
+  batch_size: 16
+  workers: 4
+
+model:
+  weights: "yolov8n.pt"
+  epochs: 30
+  patience: 10
+  optimizer: "SGD"
+  lr0: 0.01
+  lrf: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  warmup_epochs: 3.0
+  cos_lr: true         # CHANGED: false -> true (Cosine LR schedule)
+
+augmentation:
+  mosaic: 1.0
+  scale: 0.5
+  fliplr: 0.5
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+
+loss:
+  cls_loss_gain: 0.5
+  box_loss_gain: 7.5

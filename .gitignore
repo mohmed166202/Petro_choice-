@@ -1,0 +1,33 @@
+# Virtual Environment
+.venv/
+env/
+venv/
+__pycache__/
+*.pyc
+
+# Data (Raw images and processed data should be fetched via download script)
+data/raw/
+data/processed/images/
+data/processed/labels/
+Safety-Helmet-Wearing-Dataset-master/
+*.zip
+!audit_package/REVIEWER_BUNDLE.zip
+*.tar
+*.tar.gz
+
+# Model Weights and Checkpoints
+*.pt
+*.onnx
+models/
+runs/
+
+# Experiment Tracking
+mlflow.db
+mlruns/
+.mlflow/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

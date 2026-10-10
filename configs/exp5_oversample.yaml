@@ -1,0 +1,39 @@
+# Phase 4 - Ablation 5: Targeted Minority Oversampling (Batch Representation Hypothesis)
+# Hypothesis: Oversampling images containing safety helmets at 2x frequency doubles the
+# gradient update frequency for rare helmet instances without altering validation.
+experiment:
+  name: "ppe_helmet_detection"
+  run_id: "exp5_oversample"
+  changed_variable: "minority_oversampling"
+  seed: 42
+  tracking_uri: "sqlite:///mlflow.db"
+
+data:
+  dataset_yaml: "data/dataset_oversampled.yaml"  # CHANGED: Points to 2x oversampled training split
+  img_size: 640
+  batch_size: 16
+  workers: 4
+
+model:
+  weights: "yolov8n.pt"
+  epochs: 30
+  patience: 10
+  optimizer: "SGD"
+  lr0: 0.01
+  lrf: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  warmup_epochs: 3.0
+  cos_lr: false
+
+augmentation:
+  mosaic: 1.0
+  scale: 0.5
+  fliplr: 0.5
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+
+loss:
+  cls_loss_gain: 0.5
+  box_loss_gain: 7.5

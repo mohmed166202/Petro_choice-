@@ -1,0 +1,11 @@
+Run ID,Category,Changed Variable,Status,Seed,Val mAP@50,Val mAP@50-95,Hat mAP@50,No-Helmet mAP@50,Training Time (s),Notes
+exp0_baseline_seed42,Baseline,None (Baseline),Pending Execution,42,,,,,,Configured in configs/exp0_baseline.yaml. Multi-epoch training pending GPU compute.
+exp0_baseline_seed1337,Sensitivity,Seed (1337 vs 42),Pending Execution,1337,,,,,,Configured in configs/exp0_baseline_seed1337.yaml. Variance testing pending execution.
+exp1_scale,Augmentation,Scale Jitter (0.7 vs 0.5),Pending Execution,42,,,,,,Configured in configs/exp1_scale.yaml. Pending execution.
+exp2_mosaic,Augmentation,Mosaic Probability (0.5 vs 1.0),Pending Execution,42,,,,,,Configured in configs/exp2_mosaic.yaml. Pending execution.
+exp3_hsv,Augmentation,HSV Saturation (0.4 vs 0.7),Pending Execution,42,,,,,,Configured in configs/exp3_hsv.yaml. Pending execution.
+exp4_cls_gain,Class Imbalance,Class Loss Gain (1.5 vs 0.5),Pending Execution,42,,,,,,Configured in configs/exp4_cls_gain.yaml. Pending execution.
+exp5_oversample,Class Imbalance,Minority Oversampling (2x),Pending Execution,42,,,,,,Configured in configs/exp5_oversample.yaml. Pending execution.
+exp6_imgsz_800,Architecture,Input Resolution (800 vs 640),Pending Execution,42,,,,,,Configured in configs/exp6_imgsz_800.yaml. Pending execution.
+exp7_cosine_lr,Optimization,Cosine LR Scheduler,Pending Execution,42,,,,,,Configured in configs/exp7_cosine_lr.yaml. Pending execution.
+exp8_best_combo,Composite,Winning Interventions Union,Pending Execution,42,,,,,,Configured in configs/exp8_best_combo.yaml. Composite run pending individual runs.

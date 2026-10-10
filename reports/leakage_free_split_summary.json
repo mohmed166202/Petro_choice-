@@ -1,0 +1,33 @@
+{
+  "splits_summary": {
+    "train": {
+      "images": 4964,
+      "percentage": 65.48,
+      "hat_boxes": 6740,
+      "no_helmet_boxes": 61303,
+      "hat_ratio": "9.91%",
+      "no_helmet_ratio": "90.09%"
+    },
+    "val": {
+      "images": 1264,
+      "percentage": 16.67,
+      "hat_boxes": 1205,
+      "no_helmet_boxes": 23760,
+      "hat_ratio": "4.83%",
+      "no_helmet_ratio": "95.17%"
+    },
+    "test": {
+      "images": 1353,
+      "percentage": 17.85,
+      "hat_boxes": 1099,
+      "no_helmet_boxes": 26451,
+      "hat_ratio": "3.99%",
+      "no_helmet_ratio": "96.01%"
+    }
+  },
+  "leakage_verification": {
+    "stem_cross_overlap": 0,
+    "perceptual_hash_cross_leaks": 0,
+    "test_isolation_status": "LOCKED (Read-Only Guard Enabled)"
+  }
+}

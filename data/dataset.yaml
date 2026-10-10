@@ -1,0 +1,11 @@
+# Ultralytics Dataset Configuration for PPE Safety Helmet Detection
+# Note: 'test' is intentionally omitted to prevent leakage during training/validation.
+
+path: .
+train: data/splits/train.txt
+val: data/splits/val.txt
+
+# Class mapping (0: helmet, 1: bare head)
+names:
+  0: hat
+  1: no_helmet

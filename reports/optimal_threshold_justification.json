@@ -1,0 +1,181 @@
+{
+  "status": "DIAGNOSTIC_UNFINETUNED_PRESET",
+  "optimal_threshold": 0.4,
+  "error": "Degenerate metrics: 'no_helmet' true positives are 0 across all thresholds. Checkpoint is an un-fine-tuned COCO model, not trained on SHWD. Fallback industrial preset 0.40 assigned pending GPU fine-tuning.",
+  "cost_matrix_parameters": {
+    "fn_violation_penalty": 5.0,
+    "fp_alarm_penalty": 1.0
+  },
+  "sweep_details": [
+    {
+      "threshold": 0.1,
+      "operational_cost": 389.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 52,
+      "false_alarms": 129
+    },
+    {
+      "threshold": 0.15,
+      "operational_cost": 345.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 55,
+      "false_alarms": 70
+    },
+    {
+      "threshold": 0.2,
+      "operational_cost": 325.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 56,
+      "false_alarms": 45
+    },
+    {
+      "threshold": 0.25,
+      "operational_cost": 317.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 57,
+      "false_alarms": 32
+    },
+    {
+      "threshold": 0.3,
+      "operational_cost": 310.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 57,
+      "false_alarms": 25
+    },
+    {
+      "threshold": 0.35,
+      "operational_cost": 307.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 57,
+      "false_alarms": 22
+    },
+    {
+      "threshold": 0.4,
+      "operational_cost": 310.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 58,
+      "false_alarms": 20
+    },
+    {
+      "threshold": 0.45,
+      "operational_cost": 311.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 59,
+      "false_alarms": 16
+    },
+    {
+      "threshold": 0.5,
+      "operational_cost": 307.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 59,
+      "false_alarms": 12
+    },
+    {
+      "threshold": 0.55,
+      "operational_cost": 307.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 59,
+      "false_alarms": 12
+    },
+    {
+      "threshold": 0.6,
+      "operational_cost": 304.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 59,
+      "false_alarms": 9
+    },
+    {
+      "threshold": 0.65,
+      "operational_cost": 302.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 59,
+      "false_alarms": 7
+    },
+    {
+      "threshold": 0.7,
+      "operational_cost": 297.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 59,
+      "false_alarms": 2
+    },
+    {
+      "threshold": 0.75,
+      "operational_cost": 297.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 59,
+      "false_alarms": 2
+    },
+    {
+      "threshold": 0.8,
+      "operational_cost": 297.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 59,
+      "false_alarms": 2
+    },
+    {
+      "threshold": 0.85,
+      "operational_cost": 295.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 59,
+      "false_alarms": 0
+    },
+    {
+      "threshold": 0.9,
+      "operational_cost": 295.0,
+      "no_helmet_precision": 0.0,
+      "no_helmet_recall": 0.0,
+      "no_helmet_f1": 0.0,
+      "no_helmet_f2": 0.0,
+      "false_negatives_violations": 59,
+      "false_alarms": 0
+    }
+  ]
+}

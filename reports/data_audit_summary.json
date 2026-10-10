@@ -1,0 +1,28 @@
+{
+  "dataset_summary": {
+    "total_images": 7581,
+    "total_boxes": 120558,
+    "corrupt_images_count": 0,
+    "exact_duplicate_groups": 37,
+    "near_duplicate_pairs_sampled": 8475
+  },
+  "class_distribution": {
+    "hat_count": 9044,
+    "no_helmet_count": 111514,
+    "imbalance_ratio_no_helmet_to_hat": "12.33:1",
+    "hat_percentage": 7.5,
+    "no_helmet_percentage": 92.5
+  },
+  "box_size_breakdown": {
+    "coco_small_percentage": 69.6,
+    "coco_medium_percentage": 22.11,
+    "coco_large_percentage": 8.29,
+    "mean_boxes_per_image": 15.9,
+    "max_boxes_in_single_image": 162
+  },
+  "label_errors": {
+    "out_of_bounds_count": 0,
+    "degenerate_zero_area_count": 0,
+    "overlapping_duplicates_count": 2
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "hardware_environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 142 Stepping 12, GenuineIntel",
+    "cpu_name": "AMD64",
+    "physical_cores": 4,
+    "logical_processors": 8,
+    "total_ram_gb": 15.81
+  },
+  "benchmark_protocol": {
+    "batch_size": 1,
+    "warmup_iterations": 50,
+    "timed_iterations": 200,
+    "intra_op_threads": 4,
+    "input_resolution": "640x640"
+  },
+  "end_to_end_latency_ms": {
+    "mean": 68.12,
+    "median_p50": 65.61,
+    "p90": 86.78,
+    "p95": 92.32,
+    "std_dev": 15.08,
+    "throughput_fps": 14.7
+  },
+  "pure_onnx_inference_ms": {
+    "mean": 58.24,
+    "median_p50": 55.57,
+    "p95": 78.61
+  }
+}

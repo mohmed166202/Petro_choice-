@@ -1,0 +1,66 @@
+{
+  "author_split_counts": {
+    "trainval_images": 6064,
+    "test_images": 1517,
+    "total_images": 7581,
+    "stem_exact_overlap": 0
+  },
+  "leakage_findings": {
+    "cross_split_exact_duplicates_count": 9,
+    "cross_split_near_duplicate_pairs": 17315,
+    "contaminated_test_images_count": 409,
+    "test_set_contamination_percentage": "26.96%"
+  },
+  "sample_leaks": [
+    {
+      "test_image": "PartA_00427",
+      "trainval_image": "PartA_00874",
+      "hamming_distance": 4
+    },
+    {
+      "test_image": "PartA_00427",
+      "trainval_image": "PartA_00867",
+      "hamming_distance": 2
+    },
+    {
+      "test_image": "PartA_00427",
+      "trainval_image": "PartA_00403",
+      "hamming_distance": 2
+    },
+    {
+      "test_image": "PartA_00427",
+      "trainval_image": "PartA_00401",
+      "hamming_distance": 4
+    },
+    {
+      "test_image": "PartA_00427",
+      "trainval_image": "PartA_01367",
+      "hamming_distance": 2
+    },
+    {
+      "test_image": "PartA_00427",
+      "trainval_image": "PartA_00294",
+      "hamming_distance": 2
+    },
+    {
+      "test_image": "PartA_00427",
+      "trainval_image": "PartA_01284",
+      "hamming_distance": 2
+    },
+    {
+      "test_image": "PartA_00427",
+      "trainval_image": "PartA_01624",
+      "hamming_distance": 2
+    },
+    {
+      "test_image": "PartA_00427",
+      "trainval_image": "PartA_01177",
+      "hamming_distance": 2
+    },
+    {
+      "test_image": "PartA_00427",
+      "trainval_image": "PartA_01437",
+      "hamming_distance": 4
+    }
+  ]
+}

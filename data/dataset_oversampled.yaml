@@ -1,0 +1,6 @@
+names:
+  0: hat
+  1: no_helmet
+path: .
+train: data/splits/train_oversampled.txt
+val: data/splits/val.txt

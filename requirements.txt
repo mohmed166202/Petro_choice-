@@ -1,0 +1,26 @@
+# Core ML & CV
+torch>=2.2.0
+torchvision>=0.17.0
+ultralytics>=8.1.0
+opencv-python-headless>=4.8.0
+pillow>=10.0.0
+
+# Experiment Tracking & Config
+mlflow>=2.11.0
+pyyaml>=6.0.1
+pydantic>=2.6.0
+
+# Data Processing & Auditing
+imagehash>=4.3.1
+scikit-learn>=1.4.0
+matplotlib>=3.8.0
+tqdm>=4.66.0
+gdown>=5.1.0
+
+# Deployment & Serving
+onnx>=1.15.0
+onnxruntime>=1.17.0
+fastapi>=0.110.0
+uvicorn>=0.28.0
+python-multipart>=0.0.9
+requests>=2.31.0

@@ -1,0 +1,18 @@
+# Controlled Ablation Study: PPE Helmet Detection
+
+- **Significance Threshold (MDE)**: > 0.0050 gain in val mAP@50 required.
+- **Selection Rule**: Model selection uses strictly validation metrics; test set remains untouched.
+
+| Run ID | Category | Changed Variable | Status | Val mAP@50 | Val mAP@50-95 | Hat mAP@50 | No-Helmet mAP@50 | Δ vs Baseline | Outcome |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| exp0_baseline_seed42 | Baseline | None (Baseline) | Pending Execution | - | - | - | - | - | Pending |
+| exp0_baseline_seed1337 | Sensitivity | Seed (1337 vs 42) | Pending Execution | - | - | - | - | - | Pending |
+| exp1_scale | Augmentation | Scale Jitter (0.7 vs 0.5) | Pending Execution | - | - | - | - | - | Pending |
+| exp2_mosaic | Augmentation | Mosaic Probability (0.5 vs 1.0) | Pending Execution | - | - | - | - | - | Pending |
+| exp3_hsv | Augmentation | HSV Saturation (0.4 vs 0.7) | Pending Execution | - | - | - | - | - | Pending |
+| exp4_cls_gain | Class Imbalance | Class Loss Gain (1.5 vs 0.5) | Pending Execution | - | - | - | - | - | Pending |
+| exp5_oversample | Class Imbalance | Minority Oversampling (2x) | Pending Execution | - | - | - | - | - | Pending |
+| exp6_imgsz_800 | Architecture | Input Resolution (800 vs 640) | Pending Execution | - | - | - | - | - | Pending |
+| exp7_cosine_lr | Optimization | Cosine LR Scheduler | Pending Execution | - | - | - | - | - | Pending |
+| exp8_best_combo | Composite | Winning Interventions Union | Pending Execution | - | - | - | - | - | Pending |
+
